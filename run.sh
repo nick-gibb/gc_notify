@@ -2,4 +2,4 @@
 
 echo -e "Hello world!" 
 
-python3 ./gc_notify.py "myfile.txt" "myotherfile.txt"
+python3 ./gc_notify.py "secondtestfile.txt" "testfile.txt"
