@@ -4,6 +4,7 @@ import config
 import base64
 
 api_key = config.api_key
+GC_NOTIFY_SERVICE = "https://api.notification.canada.ca/v2/notifications/email"
 
 
 def base64_encode(filename):
@@ -12,8 +13,7 @@ def base64_encode(filename):
     return encoded_file_contents
 
 
-def send_email(email_address="nicholas.gibb@canada.ca", filename=None):
-    url = "https://api.notification.canada.ca/v2/notifications/email"
+def send_email(email_address, filename):
     encoded_file_contents = base64_encode(filename)
 
     payload = {
@@ -27,15 +27,11 @@ def send_email(email_address="nicholas.gibb@canada.ca", filename=None):
 
     headers = {"content-type": "application/json", "Authorization": api_key}
 
-    r = requests.post(url, data=json.dumps(payload), headers=headers)
-
-    print(r.text)
+    r = requests.post(GC_NOTIFY_SERVICE, data=json.dumps(payload), headers=headers)
 
 
 def main(files):
     for filename in files:
-        # filename_base64 = base64_encode(filename)
-        print(filename)
         send_email("nicholas.gibb@canada.ca", filename)
 
 
