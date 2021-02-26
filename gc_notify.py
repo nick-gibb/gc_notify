@@ -4,13 +4,13 @@ import config
 import base64
 
 api_key = config.api_key
+email_list = config.emails
 GC_NOTIFY_SERVICE = "https://api.notification.canada.ca/v2/notifications/email"
 
 
 def base64_encode(filename):
-    file_contents = open(filename, "r").read()
-    encoded_file_contents = base64.b64encode(bytes(file_contents, "utf-8")).decode("ascii")
-    return encoded_file_contents
+    with open(filename, "rb") as file_contents:
+        return base64.b64encode(file_contents.read()).decode("ascii")
 
 
 def send_email(email_address, filename):
@@ -32,7 +32,8 @@ def send_email(email_address, filename):
 
 def main(files):
     for filename in files:
-        send_email("nicholas.gibb@canada.ca", filename)
+        for email in email_list:
+            send_email(email, filename)
 
 
 if __name__ == "__main__":
